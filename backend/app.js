@@ -53,9 +53,10 @@ app.use('/admin', adminRoutes);
 app.use('/users', usersRouter);
 
 app.get("/forzar-error", (req, res) => {
-  throw new Error("Error de prueba en producción para Sentry!");
+  const err = new Error("Error de prueba en producción para Sentry!");
+  Sentry.captureException(err);
+  res.status(500).send("Error de prueba enviado a Sentry con éxito.");
 });
-
 
 // Manejo de 404
 app.use((req, res, next) => {
